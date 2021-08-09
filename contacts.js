@@ -9,11 +9,10 @@ const listContacts = async () => {
     const data = await fs.readFile(contactsPath);
     const contacts = JSON.parse(data);
     return contacts;
-
   } catch (error) {
     throw error;
   }
-}
+};
 
 const getContactById = async (contactId) => {
   try {
@@ -21,24 +20,23 @@ const getContactById = async (contactId) => {
     const contact = contacts.find((contact) => contact.id === contactId);
     if (!contact) {
       throw new Error(`Contact with id=${contactId} is not found`);
-      
     }
     return contact;
   } catch (error) {
     throw error;
   }
-}
+};
 
 const removeContact = async (contactId) => {
   try {
     const contacts = await listContacts();
-    const index = contacts.findIndex(contact => contact.id === contactId);
+    const index = contacts.findIndex((contact) => contact.id === contactId);
 
     if (index === -1) {
       throw new Error(`Contact with id=${contactId} is not found`);
     }
 
-    const newContacts = contacts.filter(contact => contact.id !== contactId);
+    const newContacts = contacts.filter((contact) => contact.id !== contactId);
 
     const contactsToString = JSON.stringify(newContacts);
     await fs.writeFile(contactsPath, contactsToString);
@@ -47,26 +45,25 @@ const removeContact = async (contactId) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const addContact = async (name, email, phone) => {
   const newContact = { id: v4(), name, email, phone };
-    try {
-      const contacts = await listContacts();
-      const newContacts = JSON.stringify([...contacts, newContact]);
-      // console.table(newContacts)
-      await fs.writeFile(contactsPath, newContacts);
-      
-      return newContacts;
-    }
-    catch(error){
-        throw error;
-    }
-}
+  try {
+    const contacts = await listContacts();
+    const newContacts = JSON.stringify([...contacts, newContact]);
+    // console.table(newContacts)
+    await fs.writeFile(contactsPath, newContacts);
+
+    return newContacts;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
-    listContacts,
-    getContactById,
-    removeContact,
-    addContact
-}
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};
